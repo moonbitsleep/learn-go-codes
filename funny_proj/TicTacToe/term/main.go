@@ -80,17 +80,16 @@ func getPosition() (int, int) {
 	return x, y
 }
 
-func (g *Game) CheckDraw() {
+func (g *Game) CheckDraw() bool{
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
 			pos := g.Chessboard[i][j]
 			if pos == '.' {
-				return
+				return false
 			}
 		}
 	}
-	// 如果都没有'.'
-	g.status = 3
+	return true
 }
 
 func (g *Game) CheckWon(symbol byte) bool{
@@ -139,7 +138,12 @@ func main() {
 			fmt.Println("O Won!")
 			game.status = 2
 		}
-		game.CheckDraw()
+		if game.CheckDraw() {
+			game.PrintBoard()
+			fmt.Println("平局！")
+			game.status = 3
+		}
 	}
+
 
 }
